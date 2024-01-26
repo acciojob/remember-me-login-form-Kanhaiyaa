@@ -1,34 +1,52 @@
 <!DOCTYPE html>
-
 <html>
-
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <title>Login Form</title>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-     <form>
-		 <label >username</label>
-        <input id="username" type="text" placeholder="username">
+  <h1>Login Form</h1>
+  <form action="/login" method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="checkbox" name="remember" id="checkbox">
+    <label for="checkbox">Remember me</label>
+    <input type="submit" value="Submit">
+  </form>
 
-		 <label >password</label>
-		 <input id="pass" type="password"  placeholder="password">
+  <script>
+    const checkbox = document.getElementById("checkbox");
+    const usernameInput = document.getElementById("username");
+    const passwordInput = document.getElementById("password");
 
-		 <label >Remember me</label>
-		 <input type="checkbox" id="checkbox">
+    if (localStorage.getItem("username") && localStorage.getItem("password")) {
+      usernameInput.value = localStorage.getItem("username");
+      passwordInput.value = localStorage.getItem("password");
+      checkbox.checked = true;
+    }
 
-		 <label >submit</label>
-		 <input type="button" id="submit" value="submit">
-	 </form>
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) {
+        localStorage.setItem("username", usernameInput.value);
+        localStorage.setItem("password", passwordInput.value);
+      } else {
+        localStorage.removeItem("username");
+        localStorage.removeItem("password");
+      }
+    });
 
+    document.querySelector("form").addEventListener("submit", (event) => {
+      event.preventDefault();
 
+      const username = usernameInput.value;
+      const password = passwordInput.value;
 
+      if (checkbox.checked) {
+        localStorage.setItem("username", username);
+        localStorage.setItem("password", password);
+      }
 
-	
-    <script type="text/javascript" src="./script.js">
-</script>
-
+      alert(`Logged in as ${username}`);
+    });
+  </script>
 </body>
-
 </html>
